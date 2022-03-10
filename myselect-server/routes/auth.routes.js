@@ -3,6 +3,8 @@ const router = require("express").Router();
 // ℹ️ Handles password encryption
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
+const jwt = require('jsonwebtoken');
+
 
 // How many rounds should bcrypt run the salt (default [10 - 12 rounds])
 const saltRounds = 10;
@@ -13,18 +15,23 @@ const User = require("../models/User.model");
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const {isAuthenticated} = require('../middleware/jwt.middleware')
 
-router.get("/loggedin", (req, res) => {
-  res.json(req.user);
+
+router.get("/verify", isAuthenticated, (req, res, next) => {
+  console.log('req.payload', req.payload)
+  res.status(200).json(req.payload)
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password } = req.body;
 
-  if (!username) {
+
+router.post("/signup", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email) {
     return res
       .status(400)
-      .json({ errorMessage: "Please provide your username." });
+      .json({ errorMessage: "Please provide your email address." });
   }
 
   if (password.length < 8) {
@@ -46,10 +53,10 @@ router.post("/signup", isLoggedOut, (req, res) => {
   */
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username }).then((found) => {
+  User.findOne({ email }).then((found) => {
     // If the user is found, send the message username is taken
     if (found) {
-      return res.status(400).json({ errorMessage: "Username already taken." });
+      return res.status(400).json({ errorMessage: "Email address already taken." });
     }
 
     // if user is not found, create a new user - start with hashing the password
@@ -59,15 +66,24 @@ router.post("/signup", isLoggedOut, (req, res) => {
       .then((hashedPassword) => {
         // Create a user and save it in the database
         return User.create({
-          username,
           password: hashedPassword,
+          email
         });
       })
       .then((user) => {
-        // Bind the user to the session object
-        req.session.user = user;
-        res.status(201).json(user);
+        //jwt
+        const { _id, email, isAdmin, restaurantsList, brandsList } = user;
+        const payload = { _id, email, isAdmin, restaurantsList, brandsList };
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: 'HS256',
+          expiresIn: '6h',
+        });
+
+        // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
+        return res.status(200).json({ authToken });
       })
+
+
       .catch((error) => {
         if (error instanceof mongoose.Error.ValidationError) {
           return res.status(400).json({ errorMessage: error.message });
@@ -83,13 +99,13 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
-  const { username, password } = req.body;
+router.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
 
-  if (!username) {
+  if (!email) {
     return res
       .status(400)
-      .json({ errorMessage: "Please provide your username." });
+      .json({ errorMessage: "Please provide your email address." });
   }
 
   // Here we use the same logic as above
@@ -101,7 +117,7 @@ router.post("/login", isLoggedOut, (req, res, next) => {
   }
 
   // Search the database for a user with the username submitted in the form
-  User.findOne({ username })
+  User.findOne({ email })
     .then((user) => {
       // If the user isn't found, send the message that user provided wrong credentials
       if (!user) {
@@ -113,9 +129,17 @@ router.post("/login", isLoggedOut, (req, res, next) => {
         if (!isSamePassword) {
           return res.status(400).json({ errorMessage: "Wrong credentials." });
         }
-        req.session.user = user;
+        //jwt
+        const { _id, email, isAdmin, restaurantsList, brandsList } = user;
+        const payload = { _id, email, isAdmin, restaurantsList, brandsList };
+        const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+          algorithm: 'HS256',
+          expiresIn: '6h',
+        });
+
         // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
-        return res.json(user);
+        return res.status(200).json({ authToken });
+
       });
     })
 

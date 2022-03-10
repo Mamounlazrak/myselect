@@ -58,13 +58,21 @@ router.get('/restaurants/:restaurantId', (req, res, next) => {
       .catch((err) => res.json(err));
   });
 
-  router.get('/myrestaurants/:userId', (req, res, next) => {
+  router.get('/myrestaurants/no-populate/:userId', (req, res, next) => {
       const { userId } = req.params 
       User.findById(userId)
-        .populate('restaurantsList')
+        // .populate('restaurantsList')
         .then((user) => res.json(user.restaurantsList))
         .catch((err) => next(err));
   });
+
+  router.get('/myrestaurants/:userId', (req, res, next) => {
+    const { userId } = req.params 
+    User.findById(userId)
+      .populate('restaurantsList')
+      .then((user) => res.json(user.restaurantsList))
+      .catch((err) => next(err));
+});
 
   router.put('/myrestaurants/:userId/:restaurantId', (req, res, next) => {
       const { userId, restaurantId } = req.params

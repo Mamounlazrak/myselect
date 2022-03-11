@@ -6,7 +6,9 @@ import SignupPage from './Pages/SignupPage/SignupPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import RestaurantDetailsPage from './Pages/RestaurantDetailsPage/RestaurantDetailsPage';
 import MyRestaurantsListPage from './Pages/MyRestaurantsListPage/MyRestaurantsListPage';
-
+import IsPrivate from './Components/IsPrivate/IsPrivate';
+import IsAnon from './Components/IsAnon/IsAnon';
+import RestaurantEditPage from './Pages/RestaurantEditPage/RestaurantEditPage';
 
 
 function App() {
@@ -14,11 +16,12 @@ function App() {
     <div className="App">
       <Navbar />
       <Routes>
-        <Route path="/signup" element={<SignupPage />}/>
-        <Route path="/login" element={<LoginPage />}/>
+        <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>}/>
+        <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>}/>
         <Route path="/restaurants" element={<RestaurantsListPage />}/>
-        <Route path="/myrestaurants" element={<MyRestaurantsListPage />}></Route>
+        <Route path="/myrestaurants" element={<IsPrivate> <MyRestaurantsListPage /> </IsPrivate>} /> 
         <Route path="/restaurants/:restaurantId" element={<RestaurantDetailsPage />}></Route>
+        <Route path="/edit/:restaurantId" element={<RestaurantEditPage />}></Route>
       </Routes>
     </div>
   );

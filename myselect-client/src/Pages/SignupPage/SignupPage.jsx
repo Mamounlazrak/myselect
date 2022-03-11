@@ -34,7 +34,7 @@ function SignupPage() {
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email address</label>
-        <input type="text" name="username" value={email} onChange={handleEmail} />
+        <input type="text" name="email" value={email} onChange={handleEmail} />
 
         <label htmlFor="password">Password</label>
         <input type="password" name="password" value={password} onChange={handlePassword} />

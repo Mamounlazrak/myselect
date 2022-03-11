@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function RestaurantDetailsPage() {
@@ -11,9 +13,12 @@ function RestaurantDetailsPage() {
     const { loggedIn, user, logoutUser, authenticateUser } = useContext(AuthContext);
     const [myRestaurants, setMyRestaurants] = useState(null);
 
+    const navigate = useNavigate();
+
 
     const fetchMyRestaurants = async () => {
         try {
+            console.log('HEYYYYY', user)
             let response = await axios.get(`${process.env.REACT_APP_API_URL}/api/myrestaurants/no-populate/${user._id}`);
             setMyRestaurants(response.data);
         }
@@ -25,8 +30,6 @@ function RestaurantDetailsPage() {
         try{
             let response = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants/${restaurantId}`)
             setRestaurant(response.data);
-            fetchMyRestaurants();
-            // setMyRestaurants(user.restaurantsList);
         } catch (error) {
             console.log(error);
         }
@@ -35,33 +38,56 @@ function RestaurantDetailsPage() {
 
 
 
-    const handleSubmit = (e) => {
+    const handleSubmitList = (e) => {
         e.preventDefault();
 
         axios
             .put(`${process.env.REACT_APP_API_URL}/api/myrestaurants/${user._id}/${restaurantId}`)
             .then((newList) => {
-                // setMyRestaurants(newList.data)
-                // user.restaurantsList = newList.data
-                authenticateUser()})
-            // .then((newList) => console.log(newList))
-            // console.log(myRestaurants)
+                 fetchMyRestaurants()})
             .catch((err) => console.log(err));
     }
+
+
+    const handleSubmitDelete = (e) => {
+        e.preventDefault();
+
+        axios
+            .delete(`${process.env.REACT_APP_API_URL}/api/restaurants/${restaurantId}`)
+            .then((deleted) => {
+                 navigate('/restaurants')})
+            .catch((err) => console.log(err));
+    }
+
+
     useEffect( () => {fetchRestaurant();
-    }, []);
-    useEffect( () => {fetchMyRestaurants();
-    }, [myRestaurants]);
+        fetchMyRestaurants()
+    }, [user]);
+
 
   return (
     <div>
-        {/* {console.log('HEYYY', myRestaurants)} */}
         {restaurant && <h3>{restaurant.name}</h3>}
-        {console.log(myRestaurants)}
-        <form onSubmit={handleSubmit}>
-            {/* { loggedIn && user.restaurantsList.includes(restaurantId) ? <button type='submit'>Remove from my list</button> : <button type='submit'>Add to my list</button> } */}
-            { myRestaurants && myRestaurants.includes(restaurantId) ? <button type='submit'>Remove from my list</button> : <button type='submit'>Add to my list</button> }
-        </form>
+
+
+
+        {(loggedIn && !user.isAdmin) &&
+            <>
+            <form onSubmit={handleSubmitList}>
+            { (loggedIn && myRestaurants) && myRestaurants.includes(restaurantId) ? <button type='submit'>Remove from my list</button> : <button type='submit'>Add to my list</button> }
+            </form>
+            </> 
+        }
+        {(loggedIn && user.isAdmin) &&
+            <>
+            <Link to={`/edit/${restaurantId}`}>Edit restaurant</Link>
+            <form onSubmit={handleSubmitDelete}>
+            <button type='submit'>Remove restaurant</button>
+            </form>
+            </>
+        }
+
+       
     </div>
   )
 }

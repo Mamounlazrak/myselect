@@ -5,7 +5,7 @@ const brandSchema = new Schema(
         name: String, 
         location: String, 
         description: String, 
-        picture: {
+        imageURL: {
             type: Sting,
             default: ''
         }

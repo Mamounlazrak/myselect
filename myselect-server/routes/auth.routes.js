@@ -13,8 +13,6 @@ const saltRounds = 10;
 const User = require("../models/User.model");
 
 // Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
-const isLoggedOut = require("../middleware/isLoggedOut");
-const isLoggedIn = require("../middleware/isLoggedIn");
 const {isAuthenticated} = require('../middleware/jwt.middleware')
 
 
@@ -64,21 +62,23 @@ router.post("/signup", (req, res) => {
       .genSalt(saltRounds)
       .then((salt) => bcrypt.hash(password, salt))
       .then((hashedPassword) => {
+        console.log(email, hashedPassword);
+
         // Create a user and save it in the database
         return User.create({
-          password: hashedPassword,
-          email
+          email,
+          password: hashedPassword
         });
       })
       .then((user) => {
         //jwt
+
         const { _id, email, isAdmin, restaurantsList, brandsList } = user;
         const payload = { _id, email, isAdmin, restaurantsList, brandsList };
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: 'HS256',
           expiresIn: '6h',
         });
-
         // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
         return res.status(200).json({ authToken });
       })
@@ -91,7 +91,7 @@ router.post("/signup", (req, res) => {
         if (error.code === 11000) {
           return res.status(400).json({
             errorMessage:
-              "Username need to be unique. The username you chose is already in use.",
+              "Email address needs to be UNIQUE. The email address you chose is already in use.",
           });
         }
         return res.status(500).json({ errorMessage: error.message });
@@ -151,7 +151,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-router.get("/logout", isLoggedIn, (req, res) => {
+router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ errorMessage: err.message });

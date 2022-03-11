@@ -76,11 +76,22 @@ router.get('/restaurants/:restaurantId', (req, res, next) => {
 
   router.put('/myrestaurants/:userId/:restaurantId', (req, res, next) => {
       const { userId, restaurantId } = req.params
-      console.log(userId);
-      console.log(restaurantId);
-      User.findByIdAndUpdate(userId, {$push : {restaurantsList: restaurantId}}, {new: true})
-        .then((user) => res.json(user.restaurantsList))
-        .catch((err) => res.json(err));
+
+        User.findById(userId) 
+            .then((user) => {
+                if(user.restaurantsList.includes(restaurantId)) {
+                    User.findByIdAndUpdate(userId, {$pull : {restaurantsList: restaurantId}}, {new: true})
+                    .then((user) => res.json(user.restaurantsList))
+                    .catch((err) => res.json(err));
+
+                } else {
+
+                    User.findByIdAndUpdate(userId, {$push : {restaurantsList: restaurantId}}, {new: true})
+                    .then((user) => res.json(user.restaurantsList))
+                    .catch((err) => res.json(err));
+                }
+            })
+            .catch((err) => console.log(err))
   })
 
   

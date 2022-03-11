@@ -8,7 +8,7 @@ function RestaurantEditPage() {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [description, setDescription] = useState('');
-    const [picture, setPicture] = useState('');
+    const [imageURL, setImageURL] = useState('');
 
     const {restaurantId} = useParams();
 
@@ -17,11 +17,11 @@ function RestaurantEditPage() {
     const fetchRestaurant = async() => {
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_URL}/api/restaurants/${restaurantId}`)
-            let {name, location, description, picture} = response.data
+            let {name, location, description, imageURL} = response.data
             setName(name)
             setLocation(location)
             setDescription(description)
-            setPicture(picture)
+            setImageURL(imageURL)
         } catch(error) {
             console.log(error)
         }
@@ -34,7 +34,7 @@ function RestaurantEditPage() {
     const handleSubmit = (e) => {
       e.preventDefault();
 
-      const body = { name, location, description, picture };
+      const body = { name, location, description, imageURL };
   
       axios
         .put(`${process.env.REACT_APP_API_URL}/api/restaurants/${restaurantId}`, body)
@@ -42,7 +42,7 @@ function RestaurantEditPage() {
           setName('');
           setLocation('');
           setDescription('');
-          setPicture('');
+          setImageURL('');
           navigate(`/restaurants/${restaurantId}`);
         })
         .catch((err) => console.log(err));
@@ -61,8 +61,8 @@ function RestaurantEditPage() {
             <label htmlFor="description">Description</label>
             <textarea name='description' value={description} rows="4" cols="50" onChange={(e) => setDescription(e.target.value)} />
 
-            <label htmlFor="picture">Picture</label>
-            <input type="text" name='picture' value={picture} onChange={(e) => setPicture(e.target.value)} />
+            <label htmlFor="imageURL">Picture</label>
+            <input type="text" name='imageURL' value={imageURL} onChange={(e) => setImageURL(e.target.value)} />
 
             <button type="submit">Edit Restaurant</button>
         </form>

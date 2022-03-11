@@ -8,11 +8,15 @@ function Navbar() {
     <nav>
       <Link to="/"> Homepage</Link>
         <Link to="/restaurants">Restaurants</Link>
-      {loggedIn && (
+      {(loggedIn && !user.isAdmin) && (
         <>
           {user.username}
         <Link to="/myrestaurants">My Restaurants</Link>
+        </>
+      )}
 
+      {(loggedIn) && (
+        <>
           <button onClick={logoutUser}>Logout</button>
         </>
       )}

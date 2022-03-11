@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import AddFormRestaurant from '../../Components/AddFormRestaurant/AddFormRestaurant';
+import service from "../../api/service";
+
 
 function RestaurantsListPage() {
     const { loggedIn, user, logoutUser } = useContext(AuthContext);
@@ -19,6 +21,7 @@ function RestaurantsListPage() {
 
     useEffect(() => {
         fetchRestaurants();
+
     }, []);
     
 
@@ -34,6 +37,7 @@ function RestaurantsListPage() {
             <Link to={`/restaurants/${restaurant._id}`}>
               <h3>{restaurant.name}</h3>
             </Link>
+            <img src={restaurant.imageURL} alt="restaurant" width="200" />
           </div>
         );
       })}

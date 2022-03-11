@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/auth.context';
+import { Link } from 'react-router-dom';
+
 
 
 function MyRestaurantsListPage() {
@@ -16,6 +18,8 @@ function MyRestaurantsListPage() {
         }
       };
 
+    
+
     useEffect(() => {
         fetchMyRestaurants();
     }, []);
@@ -27,9 +31,11 @@ function MyRestaurantsListPage() {
         <h3>My restaurants</h3>
         {myRestaurants.map((restaurant) => {
             return(
-                <div key={restaurant._id}>
-                    <h4>{restaurant.name}</h4>
-                </div>
+              <div key={restaurant._id}>
+            <Link to={`/restaurants/${restaurant._id}`}>
+              <h3>{restaurant.name}</h3>
+            </Link>
+          </div>
             )
         })}
     </div>

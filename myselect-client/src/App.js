@@ -12,6 +12,9 @@ import RestaurantEditPage from './Pages/RestaurantEditPage/RestaurantEditPage';
 import NavBarMUI from './Components/NavBarMUI/NavBarMUI';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import HomePage from './Pages/HomePage/HomePage';
+import RestaurantsListPageMui from './Pages/RestaurantsListPageMui/RestaurantsListPageMui'
+import RestaurantsCreatePage from './Pages/RestaurantsCreatePage/RestaurantsCreatePage';
+
 
 function App() {
   return (
@@ -26,6 +29,8 @@ function App() {
         <Route path="/restaurants/:restaurantId" element={<RestaurantDetailsPage />}></Route>
         <Route path="/edit/:restaurantId" element={<RestaurantEditPage />}></Route>
         <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route path="/restaurantsmui" element={<RestaurantsListPageMui />}></Route>
+        <Route path="/addrestaurant" element={<RestaurantsCreatePage />}/>
       </Routes>
       <NavBarMUI></NavBarMUI>
     </div>

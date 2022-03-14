@@ -6,6 +6,9 @@ import AddFormRestaurant from '../../Components/AddFormRestaurant/AddFormRestaur
 import service from "../../api/service";
 import RestaurantCard from '../../Components/RestaurantCard/RestaurantCard';
 import { Box } from '@mui/system';
+import Tabss from '../../Components/Tabs/Tabss';
+import Button from '@mui/material/Button';
+
 
 
 
@@ -29,12 +32,26 @@ function RestaurantsListPage() {
     
 
   return (
+    
     <Box sx = {{
         paddingLeft: 12,
         paddingRight: 12
     }}>
-        <Box component="h3" sx = {{textAlign: 'left'}}>Restaurants</Box>
-        {(loggedIn && user.isAdmin) && <AddFormRestaurant refreshRestaurants = {fetchRestaurants} />}
+          {/* <Tabss></Tabss> */}
+        <Box sx = {{
+          display: 'flex',
+          justifyContent:'space-between',
+          alignItems: 'center'
+
+        }}>
+
+          <Box component="h3" sx = {{textAlign: 'left'}}>Restaurants</Box>
+          <Box>
+            <Button size ="small" variant="outlined" component={Link} to="/addrestaurant">Add restaurant</Button>
+          </Box>
+
+        </Box>
+        {/* {(loggedIn && user.isAdmin) && <AddFormRestaurant refreshRestaurants = {fetchRestaurants} />} */}
         {restaurants.map((restaurant) => {
         return (
           <div key={restaurant._id}>

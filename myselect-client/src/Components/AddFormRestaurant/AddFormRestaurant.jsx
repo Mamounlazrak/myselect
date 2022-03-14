@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import service from "../../api/service";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from 'react-router-dom'
 
 
 function AddFormRestaurant(props) {
@@ -13,6 +13,8 @@ function AddFormRestaurant(props) {
     const [imageURL, setImageURL] = useState('');
 
     const navigate = useNavigate();
+
+
 
 
     const handleFileUpload = (e) => {
@@ -49,7 +51,9 @@ function AddFormRestaurant(props) {
           setLocation('');
           setDescription('');
           setImageURL('');
-          props.refreshRestaurants();
+          // props.refreshRestaurants();
+          navigate('/restaurants')
+          console.log('hey')
         })
         .catch((err) => console.log(err));
     };

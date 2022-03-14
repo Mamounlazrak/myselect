@@ -33,6 +33,9 @@ function Navbar() {
       </Box>
         </>
       )}
+        
+      {(loggedIn && user.isAdmin) && <Box>Admin View</Box> }
+
 
       {/* <Link to="/"> Homepage</Link>
         <Link to="/restaurants">Restaurants</Link>

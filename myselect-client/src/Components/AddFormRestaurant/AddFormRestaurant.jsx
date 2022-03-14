@@ -65,7 +65,8 @@ function AddFormRestaurant(props) {
             <label htmlFor="description">Description</label>
             <textarea name='description' value={description} rows="4" cols="50" onChange={(e) => setDescription(e.target.value)} />
 
-            <input type="file" onChange={(e) => handleFileUpload(e)} />
+            <label htmlFor="imageURL">Picture</label>
+            <input type="file" name="imageURL" onChange={(e) => handleFileUpload(e)} />
 
             <button type="submit">Add Restaurant</button>
         </form>

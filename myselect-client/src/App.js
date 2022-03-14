@@ -9,7 +9,7 @@ import MyRestaurantsListPage from './Pages/MyRestaurantsListPage/MyRestaurantsLi
 import IsPrivate from './Components/IsPrivate/IsPrivate';
 import IsAnon from './Components/IsAnon/IsAnon';
 import RestaurantEditPage from './Pages/RestaurantEditPage/RestaurantEditPage';
-
+import NavBarMUI from './Components/NavBarMUI/NavBarMUI';
 
 function App() {
   return (
@@ -23,6 +23,7 @@ function App() {
         <Route path="/restaurants/:restaurantId" element={<RestaurantDetailsPage />}></Route>
         <Route path="/edit/:restaurantId" element={<RestaurantEditPage />}></Route>
       </Routes>
+      <NavBarMUI></NavBarMUI>
     </div>
   );
 }

@@ -10,18 +10,22 @@ import IsPrivate from './Components/IsPrivate/IsPrivate';
 import IsAnon from './Components/IsAnon/IsAnon';
 import RestaurantEditPage from './Pages/RestaurantEditPage/RestaurantEditPage';
 import NavBarMUI from './Components/NavBarMUI/NavBarMUI';
+import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import HomePage from './Pages/HomePage/HomePage';
 
 function App() {
   return (
     <div className="App">
       <Navbar />
       <Routes>
+        <Route path="/" element={<HomePage />}/>
         <Route path="/signup" element={<IsAnon> <SignupPage /> </IsAnon>}/>
         <Route path="/login" element={<IsAnon> <LoginPage /> </IsAnon>}/>
         <Route path="/restaurants" element={<RestaurantsListPage />}/>
         <Route path="/myrestaurants" element={<IsPrivate> <MyRestaurantsListPage /> </IsPrivate>} /> 
         <Route path="/restaurants/:restaurantId" element={<RestaurantDetailsPage />}></Route>
         <Route path="/edit/:restaurantId" element={<RestaurantEditPage />}></Route>
+        <Route path="/profile" element={<ProfilePage />}></Route>
       </Routes>
       <NavBarMUI></NavBarMUI>
     </div>

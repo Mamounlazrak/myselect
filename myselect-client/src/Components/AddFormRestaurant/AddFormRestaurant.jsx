@@ -8,6 +8,7 @@ function AddFormRestaurant(props) {
 
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
+    const [averagePrice, setAveragePrice] = useState(0);
     const [description, setDescription] = useState('');
     const [imageURL, setImageURL] = useState('');
 
@@ -38,12 +39,13 @@ function AddFormRestaurant(props) {
     const handleSubmit = (e) => {
       e.preventDefault();
 
-      const body = { name, location, description, imageURL };
+      const body = { name, averagePrice,location, description, imageURL };
   
       axios
         .post(`${process.env.REACT_APP_API_URL}/api/restaurants`, body)
         .then((response) => {
           setName('');
+          setAveragePrice('');
           setLocation('');
           setDescription('');
           setImageURL('');
@@ -58,6 +60,9 @@ function AddFormRestaurant(props) {
         <form onSubmit={handleSubmit}>
             <label htmlFor="name">Name</label>
             <input type="text" name='name' value={name} onChange={(e) => setName(e.target.value)} />
+
+            <label htmlFor="averagePrice">Average Price</label>
+            <input type="number" name='averagePrice' value={averagePrice} onChange={(e) => setAveragePrice(e.target.value)} />
 
             <label htmlFor="location">Location</label>
             <input type="text" name='location' value={location} onChange={(e) => setLocation(e.target.value)} />

@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import AddFormRestaurant from '../../Components/AddFormRestaurant/AddFormRestaurant';
 import service from "../../api/service";
+import RestaurantCard from '../../Components/RestaurantCard/RestaurantCard';
+import { Box } from '@mui/system';
+
 
 
 function RestaurantsListPage() {
@@ -26,25 +29,29 @@ function RestaurantsListPage() {
     
 
   return (
-    <div>
-        <h3>Restaurants</h3>
+    <Box sx = {{
+        paddingLeft: 12,
+        paddingRight: 12
+    }}>
+        <Box component="h3" sx = {{textAlign: 'left'}}>Restaurants</Box>
         {(loggedIn && user.isAdmin) && <AddFormRestaurant refreshRestaurants = {fetchRestaurants} />}
-        {console.log(user)}
-        {console.log(restaurants)}
         {restaurants.map((restaurant) => {
         return (
           <div key={restaurant._id}>
-            <Link to={`/restaurants/${restaurant._id}`}>
+            <RestaurantCard restaurant={restaurant}></RestaurantCard>
+
+
+            {/* <Link to={`/restaurants/${restaurant._id}`}>
               <h3>{restaurant.name}</h3>
             </Link>
-            <img src={restaurant.imageURL} alt="restaurant" width="200" />
+            <img src={restaurant.imageURL} alt="restaurant" width="200" /> */}
           </div>
         );
       })}
 
 
 
-    </div>
+    </Box>
   )
 }
 

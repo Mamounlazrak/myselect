@@ -34,7 +34,7 @@ function HomePage() {
                     display: 'flex', 
                     flexDirection: 'column',
                     height: '90vh', 
-                    paddingTop: '4vh'
+                    // paddingTop: '4vh'
                 }}>
                     <Box component = "h3" sx = {{}}>Find sustainable restaurants and brands in Lisbon</Box>
                     <Box>
@@ -42,8 +42,8 @@ function HomePage() {
                     </Box>
                 </Box>
         }
-            <Box component = "h3" sx = {{textAlign: 'left'}}>Restaurant of the week</Box>
-            <Box>
+            <Box component = "h3" sx = {{textAlign: 'left', marginTop: 0}}>Restaurant of the week</Box>
+            <Box sx = {{marginTop: 0, paddingTop: 0}}>
                 <RestaurantCard restaurant={restaurantOfTheWeek}></RestaurantCard>
             </Box>
         </Box>

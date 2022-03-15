@@ -56,8 +56,7 @@ function RestaurantDetailsPage() {
     }
 
 
-    const handleSubmitDelete = (e) => {
-        e.preventDefault();
+    const deleteRestaurant = () => {
 
         axios
             .delete(`${process.env.REACT_APP_API_URL}/api/restaurants/${restaurantId}`)
@@ -74,18 +73,31 @@ function RestaurantDetailsPage() {
 
   return (
     <Box sx={{
-        display:'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-start',
+        // display:'flex',
+        // flexDirection: 'column',
+        // alignItems: 'flex-start',
         paddingLeft: 12,
         paddingRight: 12,
     }}>
-        <CssBaseline />
+        {/* <CssBaseline /> */}
         {restaurant && 
         <>
-            <Box component="h3" sx={{margin: 0}}>{restaurant.name}</Box>
-            <Box sx = {{margin: 0}}>Average Price: {restaurant.averagePrice}€</Box>
-            <Box sx = {{margin: 0}}>Location: {restaurant.location}</Box>
+            {/* <Box component="h3" sx={{margin: 0}}>{restaurant.name}</Box> */}
+            <Box sx = {{
+          display: 'flex',
+          justifyContent:'space-between',
+        //   alignItems: 'center',
+            }}>
+                <Box component="h3" sx = {{marginTop: 0}}>{restaurant.name}</Box>
+                {(loggedIn && user.isAdmin) &&
+                <Box>
+                    <Button size ="small" variant="outlined" component={Link} to={`/edit/${restaurantId}`}>Edit Restaurant</Button>
+                </Box>
+                }
+            </Box>
+
+            <Box sx = {{margin: 0, textAlign: 'left'}}>Average Price: {restaurant.averagePrice}€</Box>
+            <Box sx = {{margin: 0, textAlign: 'left'}}>Location: {restaurant.location}</Box>
             <CardMedia
                 component="img"
                 height="240"
@@ -94,14 +106,22 @@ function RestaurantDetailsPage() {
 
                 sx = {{marginTop: 2, marginBottom: 2}}
             />
-            <Box component="h4" sx={{margin: 0}}>About</Box>
-            <Box component="p" sx={{margin: 0}}>{restaurant.description}</Box>
+            <Box component="h4" sx={{margin: 0, textAlign: 'left'}}>About</Box>
+            <Box component="p" sx={{margin: 0, textAlign: 'left'}}>{restaurant.description}</Box>
 
 
 
         {(loggedIn && !user.isAdmin) &&
             <>
-            { (loggedIn && myRestaurants) && myRestaurants.includes(restaurantId) ? <Button variant="contained" onClick={() => addToMyList()} sx={{marginTop: 2, marginBottom: 2}}>Remove from my list</Button> : <Button variant="contained" onClick={() => addToMyList()} sx={{marginTop: 2, marginBottom: 2}}>Add to my list</Button> }
+        { (loggedIn && myRestaurants) && myRestaurants.includes(restaurantId) ? 
+        <Box sx = {{textAlign: 'left'}}>
+        <Button variant="contained" onClick={() => addToMyList()} sx={{textAlign:'left', marginTop: 2, marginBottom: 2}}>Remove from my list</Button> 
+        </Box>
+        :
+        <Box sx = {{textAlign: 'left'}}>
+        <Button variant="contained" onClick={() => addToMyList()} sx={{textAlign:'left', marginTop: 2, marginBottom: 2}}>Add to my list</Button> 
+        </Box>
+        }
             </> 
         }
 
@@ -109,10 +129,9 @@ function RestaurantDetailsPage() {
 
         {(loggedIn && user.isAdmin) &&
             <>
-            <Link to={`/edit/${restaurantId}`}>Edit restaurant</Link>
-            <form onSubmit={handleSubmitDelete}>
-            <button type='submit'>Remove restaurant</button>
-            </form>
+                <Box sx = {{textAlign: 'left', marginTop:'2ch', marginBottom:'2ch'}}>
+                    <Button type='submit' variant='contained' onClick={() => deleteRestaurant()}>Remove restaurant</Button>
+                </Box>
             </>
         }
 

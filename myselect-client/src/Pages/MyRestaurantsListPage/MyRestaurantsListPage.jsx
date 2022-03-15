@@ -2,6 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/auth.context';
 import { Link } from 'react-router-dom';
+import Tabss from '../../Components/Tabs/Tabss';
+import { Box } from '@mui/system';
+import Button from '@mui/material/Button';
+import RestaurantCard from '../../Components/RestaurantCard/RestaurantCard';
+
+
+
 
 
 
@@ -27,18 +34,37 @@ function MyRestaurantsListPage() {
 
 
   return (
-    <div>
-        <h3>My restaurants</h3>
-        {myRestaurants.map((restaurant) => {
-            return(
-              <div key={restaurant._id}>
-            <Link to={`/restaurants/${restaurant._id}`}>
-              <h3>{restaurant.name}</h3>
-            </Link>
-          </div>
-            )
-        })}
-    </div>
+    <Box sx = {{
+      paddingLeft: 12,
+      paddingRight: 12
+  }}>
+        {/* <Tabss></Tabss> */}
+      <Box sx = {{
+        display: 'flex',
+        justifyContent:'space-between',
+        alignItems: 'center'
+
+      }}>
+
+        <Box component="h3" sx = {{textAlign: 'left', marginBottom: '0', marginTop: '0'}}>My List</Box>
+        {(loggedIn && user.isAdmin) && <Box>
+          <Button size ="small" variant="outlined" component={Link} to="/addrestaurant">Add restaurant</Button>
+        </Box>
+        }
+
+      </Box>
+      {myRestaurants.map((restaurant) => {
+      return (
+        <div key={restaurant._id}>
+          <RestaurantCard restaurant={restaurant}></RestaurantCard>
+
+        </div>
+      );
+    })}
+
+
+
+  </Box>
   )
 }
 

@@ -45,23 +45,18 @@ function RestaurantsListPage() {
 
         }}>
 
-          <Box component="h3" sx = {{textAlign: 'left'}}>Restaurants</Box>
-          <Box>
+          <Box component="h3" sx = {{textAlign: 'left', marginBottom: '0', marginTop: '0'}}>Restaurants</Box>
+          {(loggedIn && user.isAdmin) && <Box>
             <Button size ="small" variant="outlined" component={Link} to="/addrestaurant">Add restaurant</Button>
           </Box>
+          }
 
         </Box>
-        {/* {(loggedIn && user.isAdmin) && <AddFormRestaurant refreshRestaurants = {fetchRestaurants} />} */}
         {restaurants.map((restaurant) => {
         return (
           <div key={restaurant._id}>
             <RestaurantCard restaurant={restaurant}></RestaurantCard>
 
-
-            {/* <Link to={`/restaurants/${restaurant._id}`}>
-              <h3>{restaurant.name}</h3>
-            </Link>
-            <img src={restaurant.imageURL} alt="restaurant" width="200" /> */}
           </div>
         );
       })}

@@ -17,24 +17,24 @@ function ProfilePage() {
     paddingLeft: 12,
     paddingRight: 12
     }}>
-        <Box component="h3" sx = {{marginBottom: 1}}>
+        <Box component="h3" sx = {{marginBottom: 2, marginTop: 0}}>
             Personal Information
         </Box>
         <Box 
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-   
+                '& .MuiTextField-root': { maringTop: 2, marginBottom: 2, width: '35ch' }
+
             }}
             noValidate
             autoComplete="off">
-            <div>
-            <TextField
+            <Box sx = {{marginLeft: 'O', paddingLeft: '0', textAlign:'left'}}>
+            <TextField sx = {{marginLeft: 'O', paddingLeft: '0', textAlign:'left'}}
             label="Email"
             type="text"
             //   autoComplete="current-password"
             />
-            </div>
+            </Box>
             <div>
             <TextField
             label="Password"
@@ -43,8 +43,8 @@ function ProfilePage() {
             />
             </div>
         </Box>
-        <Box>
-            <Button onClick={logoutUser}>Logout</Button>
+        <Box sx = {{marginTop:'2ch'}}>
+            <Button variant='outlined' onClick={logoutUser}>Logout</Button>
         </Box>
         
       </Box>

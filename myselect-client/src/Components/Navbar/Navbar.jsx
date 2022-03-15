@@ -36,31 +36,6 @@ function Navbar() {
       )}
         
       {(loggedIn && user.isAdmin) && <Box>Admin View</Box> }
-
-
-      {/* <Link to="/"> Homepage</Link>
-        <Link to="/restaurants">Restaurants</Link>
-      {(loggedIn && !user.isAdmin) && (
-        <>
-          {user.username}
-        <Link to="/myrestaurants">My Restaurants</Link>
-        </>
-      )}
-
-      {(loggedIn) && (
-        <>
-          <button onClick={logoutUser}>Logout</button>
-        </>
-      )}
-
-      {!loggedIn && (
-        <>
-          <Link to="/signup"> Signup</Link>
-          <Link to="/login"> Login</Link>
-        </>
-      )} */}
-
-      {/* <button onClick={toggleTheme}>Change to {theme === 'light' ? 'dark' : 'light'} </button> */}
     </Box>
   );
 }

@@ -40,7 +40,7 @@ function LoginPage() {
       paddingLeft: 12,
       paddingRight: 12
       }}>
-        <Box component="h3" sx = {{marginBottom: 1}}>
+        <Box component="h3" sx = {{marginBottom: 2, marginTop: 0}}>
             Login
         </Box>
       {/* <form onSubmit={handleSubmit}>
@@ -58,8 +58,8 @@ function LoginPage() {
             component="form"
             onSubmit={handleSubmit}
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-   
+                '& .MuiTextField-root': { maringTop: 2, marginBottom: 2, width: '35ch' }
+
             }}
             noValidate
             autoComplete="off">

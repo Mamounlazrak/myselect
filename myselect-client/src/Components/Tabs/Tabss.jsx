@@ -24,16 +24,25 @@ function Tabss() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log(value)
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Tabs value={value} onChange={handleChange} aria-label="nav tabs example">
-        <LinkTab component={Link} to="/restaurants" label="Restaurants" />
-        <LinkTab label="Page Two" href="/restaurants" />
-      </Tabs>
-    </Box>
-  );
+    // <Box sx={{ width: '100%' }}>
+    //   <Tabs value={value} onChange={handleChange} aria-label="nav tabs example">
+    //     <Tab component={Link} to="/restaurants" label="Restaurants" />
+    //     <Tab component={Link} to="/myrestaurants" label="List"/>
+    //   </Tabs>
+    // </Box>
+
+    <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <Tabs value={value} onChange={handleChange} centered>
+      <Tab label="Item One" />
+      <Tab label="Item Two" />
+      {/* <Tab label="Item Three" /> */}
+    </Tabs>
+  </Box>
+  )
 }
 
 export default Tabss

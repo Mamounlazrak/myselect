@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import { AuthContext } from '../../context/auth.context';
+import ListIcon from '@mui/icons-material/List';
 
 
 
@@ -31,6 +32,9 @@ function NavBarMUI() {
           >
             <BottomNavigationAction component={Link} to="/" label="Home" icon={<HomeIcon />} />
             <BottomNavigationAction component={Link} to="/restaurants" label="Restaurants" icon={<RestaurantIcon />} />
+            {(loggedIn && !user.isAdmin) && 
+            <BottomNavigationAction component={Link} to="/myrestaurants" label="My List" icon={<ListIcon />} />
+            }
             <BottomNavigationAction component={Link} to="/profile" label="Profile" icon={<AccountBoxIcon />} />
           </BottomNavigation>
         </Paper>

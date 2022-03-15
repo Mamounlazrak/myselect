@@ -43,7 +43,9 @@ function ProfilePage() {
             />
             </div>
         </Box>
-        <Button onClick={logoutUser}>Logout</Button>
+        <Box>
+            <Button onClick={logoutUser}>Logout</Button>
+        </Box>
         
       </Box>
     

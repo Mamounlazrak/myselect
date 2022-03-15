@@ -28,7 +28,7 @@ function App() {
         <Route path="/myrestaurants" element={<IsPrivate> <MyRestaurantsListPage /> </IsPrivate>} /> 
         <Route path="/restaurants/:restaurantId" element={<RestaurantDetailsPage />}></Route>
         <Route path="/edit/:restaurantId" element={<RestaurantEditPage />}></Route>
-        <Route path="/profile" element={<ProfilePage />}></Route>
+        <Route path="/profile" element={<IsPrivate><ProfilePage /></IsPrivate>}></Route>
         <Route path="/restaurantsmui" element={<RestaurantsListPageMui />}></Route>
         <Route path="/addrestaurant" element={<RestaurantsCreatePage />}/>
       </Routes>

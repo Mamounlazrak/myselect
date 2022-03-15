@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context/auth.context';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
@@ -30,9 +33,17 @@ function LoginPage() {
       .catch((err) => console.log(err));
   };
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+    <Box sx = {{             
+      display:'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      paddingLeft: 12,
+      paddingRight: 12
+      }}>
+        <Box component="h3" sx = {{marginBottom: 1}}>
+            Login
+        </Box>
+      {/* <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email address</label>
         <input type="text" name="email" value={email} onChange={handleEmail} />
 
@@ -40,8 +51,47 @@ function LoginPage() {
         <input type="password" name="password" value={password} onChange={handlePassword} />
 
         <button type="submit"> Login</button>
-      </form>
-    </div>
+      </form> */}
+
+
+      <Box 
+            component="form"
+            onSubmit={handleSubmit}
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: '25ch' },
+   
+            }}
+            noValidate
+            autoComplete="off">
+            <div>
+            <TextField
+            label="Email"
+            type="text"
+            name='email'
+            value={email}
+            onChange={handleEmail}
+            //   autoComplete="current-password"
+            />
+            </div>
+            <div>
+            <TextField
+            label="Password"
+            type="password"
+            name='password'
+            value={password}
+            onChange={handlePassword}
+            //   autoComplete="current-password"
+            />
+            </div>
+          <Box sx = {{
+            display: 'flex',
+            justifyContent: 'flex-start'
+          }}>
+            <Button type='submit'>Login</Button>
+          </Box>
+        </Box>
+
+    </Box>
   );
 }
 

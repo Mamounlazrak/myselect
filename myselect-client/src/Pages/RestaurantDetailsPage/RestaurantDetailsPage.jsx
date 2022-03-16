@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import axios from 'axios';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
@@ -7,15 +7,14 @@ import { Box } from '@mui/system';
 import CssBaseline from '@mui/material/CssBaseline';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-
-
-
-
+import Map from '../../Components/Map/Map';
 
 
 
 
 function RestaurantDetailsPage() {
+
+   
 
  
     const { restaurantId } = useParams();
@@ -24,7 +23,6 @@ function RestaurantDetailsPage() {
     const [myRestaurants, setMyRestaurants] = useState(null);
 
     const navigate = useNavigate();
-
 
     const fetchMyRestaurants = async () => {
         try {
@@ -73,20 +71,14 @@ function RestaurantDetailsPage() {
 
   return (
     <Box sx={{
-        // display:'flex',
-        // flexDirection: 'column',
-        // alignItems: 'flex-start',
         paddingLeft: 12,
         paddingRight: 12,
     }}>
-        {/* <CssBaseline /> */}
         {restaurant && 
         <>
-            {/* <Box component="h3" sx={{margin: 0}}>{restaurant.name}</Box> */}
             <Box sx = {{
           display: 'flex',
           justifyContent:'space-between',
-        //   alignItems: 'center',
             }}>
                 <Box component="h3" sx = {{marginTop: 0}}>{restaurant.name}</Box>
                 {(loggedIn && user.isAdmin) &&
@@ -98,6 +90,7 @@ function RestaurantDetailsPage() {
 
             <Box sx = {{margin: 0, textAlign: 'left'}}>Average Price: {restaurant.averagePrice}€</Box>
             <Box sx = {{margin: 0, textAlign: 'left'}}>Location: {restaurant.location}</Box>
+
             <CardMedia
                 component="img"
                 height="240"
@@ -109,6 +102,7 @@ function RestaurantDetailsPage() {
             <Box component="h4" sx={{margin: 0, textAlign: 'left'}}>About</Box>
             <Box component="p" sx={{margin: 0, textAlign: 'left'}}>{restaurant.description}</Box>
 
+            <Map marker = {restaurant.locationGPS.coordinates}></Map>
 
 
         {(loggedIn && !user.isAdmin) &&
@@ -135,21 +129,16 @@ function RestaurantDetailsPage() {
             </>
         }
 
-        {/* <Button variant="contained" onClick={() => addToMyList()}>Add to my list</Button> : <Button variant="contained" onClick={() => addToMyList()}>Remove from my list</Button> */}
-
-
-            {/* <Box sx={{
-                height:'25%',
-                color: 'primary.main'
-
-            }}>
-                <Box component="img" src={restaurant.imageURL} alt="restaurant_image" sx={{ objectFit: 'cover' }}></Box>
-            </Box> */}
+        
         </>  
         
         }
     </Box>
   )
+
+
+
+
 }
 
 export default RestaurantDetailsPage

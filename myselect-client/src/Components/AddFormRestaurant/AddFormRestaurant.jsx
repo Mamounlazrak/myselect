@@ -17,6 +17,8 @@ function AddFormRestaurant(props) {
 
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
     const [averagePrice, setAveragePrice] = useState(0);
     const [description, setDescription] = useState('');
     const [imageURL, setImageURL] = useState('');
@@ -52,7 +54,7 @@ function AddFormRestaurant(props) {
     const handleSubmit = (e) => {
       e.preventDefault();
 
-      const body = { name, averagePrice, location, description, imageURL};
+      const body = { name, averagePrice, location, latitude, longitude, description, imageURL};
   
       axios
         .post(`${process.env.REACT_APP_API_URL}/api/restaurants`, body)
@@ -60,6 +62,8 @@ function AddFormRestaurant(props) {
           setName('');
           setAveragePrice('');
           setLocation('');
+          setLatitude('');
+          setLongitude('');
           setDescription('');
           setImageURL('');
           // props.refreshRestaurants();
@@ -137,6 +141,24 @@ function AddFormRestaurant(props) {
             name='location'
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            />
+            </div>
+            <div>
+            <TextField
+            label="Latitude"
+            type="text"
+            name='latitude'
+            value={latitude}
+            onChange={(e) => setLatitude(e.target.value)}
+            />  
+            </div>
+            <div>
+            <TextField
+            label="Longitude"
+            type="text"
+            name='longitide'
+            value={longitude}
+            onChange={(e) => setLongitude(e.target.value)}
             />
             </div>
             <div>

@@ -21,9 +21,14 @@ router.post("/upload", fileUploader.single("imageUrl"), (req, res, next) => {
 });
 
 router.post('/restaurants', (req, res, next) => {
-    const {name, averagePrice, location, description, imageURL} = req.body;
+    const {name, averagePrice, location, latitude, longitude, description, imageURL} = req.body;
 
-    Restaurant.create({name, averagePrice, location, description, imageURL})
+    Restaurant.create({name, averagePrice, location, 
+      locationGPS: {
+        type: 'Point', 
+        coordinates: [longitude, latitude]
+    },
+    description, imageURL})
     .then((response) => res.json(response))
     .catch((err) => next(err))
 })
